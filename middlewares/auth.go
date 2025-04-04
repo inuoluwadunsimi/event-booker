@@ -2,6 +2,7 @@ package middlewares
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/inuoluwadunsimi/event-booker/utils"
 	"net/http"
 )
 
@@ -14,11 +15,13 @@ func Authenticate(ctx *gin.Context) {
 		return
 	}
 
-	//userId, err := utils.VerifToken(token)
+	userId, err := utils.VerifToken(token)
 
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"message": "unauthorized error"})
 		return
 	}
+
+	ctx.Set("userId", userId)
 	ctx.Next()
 }
